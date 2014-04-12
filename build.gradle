@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+version = '0.4.0'
+group = 'de.kandid'
+def theName = 'kandidlib-junit'
+
+idea {
+    module {downloadSources = true}
+}
+
+eclipse {
+    classpath {defaultOutputDir = file('build/eclipse/classes')}
+	 project {natures 'org.eclipse.jdt.groovy.core.groovyNature', 'org.springsource.ide.eclipse.gradle.core.nature'}
+}
+
+repositories {
+	 mavenLocal()
+    mavenCentral()
+}
+
+sourceSets {
+	main {java {srcDir 'src'}}
+	test {java {srcDir 'test'}}
+}
+
+dependencies {
+	 compile group: 'de.kandid', name: 'kandidlib', version: '0.4.0'
+    compile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jar {baseName = theName}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	baseName = theName
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives jar
+	archives sourcesJar
+}
