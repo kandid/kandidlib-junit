@@ -19,16 +19,15 @@ package de.kandid.junit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Properties;
 
 import junit.framework.TestResult;
-import de.kandid.util.IOUtil;
-import de.kandid.util.KandidException;
 
 public abstract class TestCase extends junit.framework.TestCase {
 
-	public static class NotAUnitTestTempDirException extends KandidException {
+	public static class NotAUnitTestTempDirException extends RuntimeException {
 		public NotAUnitTestTempDirException(File dir) {
 			super("Not a unit test temporary directory: " + dir);
 		}
@@ -60,7 +59,7 @@ public abstract class TestCase extends junit.framework.TestCase {
 
 	public File createTempDir() throws IOException {
 		ensureTempRoot();
-		File dir = IOUtil.createTempDir(getName(), _tempRoot);
+		File dir = Files.createTempDirectory(_tempRoot.toPath(), getName()).toFile();
 		_tempFiles.add(dir);
 		return dir;
 	}
@@ -95,5 +94,5 @@ public abstract class TestCase extends junit.framework.TestCase {
 	public static final File _properties = new File(System.getProperty("user.home") + "/.config/kandid.de/general.properties");
 	public final File _tempRoot;// = new File(System.getProperty("junit.tmp.dir", "out/unittest"));
 	public TmpDirDeletePolicy _tmpDirDeletePolicy = TmpDirDeletePolicy.passed;
-	private final HashSet<File> _tempFiles = new HashSet<File>();
+	private final HashSet<File> _tempFiles = new HashSet<>();
 }
