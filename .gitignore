@@ -5,6 +5,6 @@
 /.settings
 /.classpath
 /.project
-/kandidlib-junit.iml
-/kandidlib-junit.ipr
-/kandidlib-junit.iws
+/*.iml
+/*.ipr
+/*.iws
