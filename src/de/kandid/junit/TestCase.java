@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Properties;
 
 import junit.framework.TestResult;
+import de.kandid.environment.Places;
 
 /**
  * A TestCase that adds some logic for the handling of temporary directories. Its main purpose
@@ -151,12 +152,12 @@ public abstract class TestCase extends junit.framework.TestCase {
 	/**
 	 * The path of the properties controlling the behaviour of this class
 	 */
-	public static final File _properties = new File(System.getProperty("user.home") + "/.config/de.kandid/general.properties");
+	public static final File _properties = new File(Places.get().getConfigRead("de.kandid")[0], "general.properties");
 
 	/**
 	 * The (configurable) root of the created test files.
 	 */
-	public final File _tempRoot;// = new File(System.getProperty("junit.tmp.dir", "out/unittest"));
+	public final File _tempRoot;
 
 	/**
 	 * The policy how to handle the created files and directories after the test has finished.
